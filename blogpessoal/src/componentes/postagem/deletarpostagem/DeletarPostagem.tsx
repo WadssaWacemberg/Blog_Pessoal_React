@@ -1,8 +1,8 @@
 import { useState, useContext, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
-import { AuthContext } from "../../../../contexts/AuthContext"
-import type Postagem from "../../../../models/Postagem"
-import { buscar, deletar } from "../../../../service/Service"
+import { AuthContext } from "../../../contexts/AuthContext"
+import type Postagem from "../../../models/Postagem"
+import { buscar, deletar } from "../../../service/Service"
 import { ClipLoader } from "react-spinners"
 
 function DeletarPostagem() {

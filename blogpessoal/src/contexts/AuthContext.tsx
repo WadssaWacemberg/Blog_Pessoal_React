@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useState, type ReactNode } from "react"
+import { createContext, useState, type ReactNode } from "react"
 import { login } from "../service/Service"
 import type UsuarioLogin from "../models/UsuarioLogin"
-
+import { ToastAlerta } from "../Utils/ToastAlerta" 
 interface AuthContextProps {
     usuario: UsuarioLogin
     handleLogout(): void
@@ -16,7 +16,6 @@ interface AuthProviderProps {
 
 export const AuthContext = createContext<AuthContextProps>({} as AuthContextProps)
 
-// Removemos o 'async' da função principal do componente
 export function AuthProvider({ children }: AuthProviderProps) {
 
     const [usuario, setUsuario] = useState<UsuarioLogin>({
@@ -33,15 +32,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     async function handleLogin(usuarioLogin: UsuarioLogin) {
         setIsLoading(true)
         try {
-            await login(`/Usuario/logar`, usuarioLogin, setUsuario)
-            alert("O Usuário foi autenticado com sucesso!")
-            setIsLoading(false)
-        } catch(error){
+            await login(`/usuarios/logar`, usuarioLogin, setUsuario)
+            ToastAlerta("Usuário foi autenticado com sucesso!", "sucesso")
+        } catch (error) {
             console.log(error)
-            alert("Os Dados do usuário estão inconsistentes!")
-        setIsLoading(false)
+            ToastAlerta("Os dados do Usuário estão inconsistentes!", "erro")
+        } finally {
+            setIsLoading(false)
+        }
     }
-    }
+
     function handleLogout() {
         setUsuario({
             id: 0,
